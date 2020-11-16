@@ -1,9 +1,6 @@
 package com.epam.my_spring;
 
 import lombok.Data;
-import lombok.ToString;
-
-import java.util.Random;
 
 /**
  * @author Evgeny Borisov
@@ -18,5 +15,11 @@ public class Elf {
     @InjectRandomInt(min = 3,max = 7)
     private int speed;
 
+    @InjectRandomString(type = StringTypes.GAME_OF_THRONES)
+    private String say;
+
+    public void InitAge(){
+        age = 4000;
+    }
 
 }

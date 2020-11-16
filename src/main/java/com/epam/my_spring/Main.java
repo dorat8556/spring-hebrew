@@ -8,7 +8,8 @@ public class Main {
         IRobot iRobot = new IRobot();
         iRobot.cleanRoom();
 
-        //todo add support for @InjectRandomString(type=StringTypes.CHUCK_NORRIS_QUOTE, type = StringTypes.GAME_OF_THRONES)
+        //todo add support for @InjectRandomString(type=StringTypes.CHUCK_NORRIS_QUOTE,
+        // type = StringTypes.GAME_OF_THRONES)
         // todo write support for running automticly all methods which starts with init
     }
 }

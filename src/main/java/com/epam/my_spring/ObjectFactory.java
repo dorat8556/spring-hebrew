@@ -3,11 +3,8 @@ package com.epam.my_spring;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * @author Evgeny Borisov
@@ -45,9 +42,9 @@ public class ObjectFactory {
 
 
         configure(t);
+//todo here you should scan your class for methods, which starts with init and than you invoke them
 
-        //todo here you should scan your class for methods, which starts with init and than you invoke them
-
+        invokeAllInitMethods(t);
 
         return t;
     }
@@ -74,6 +71,18 @@ public class ObjectFactory {
             type = implClass;
         }
         return type;
+    }
+
+    @SneakyThrows
+    private <T> void invokeAllInitMethods(T t){
+        Method[] methods = t.getClass().getMethods();
+//        Arrays.stream(methods).filter(method -> method.getName().contains("Init"))
+//                .map(method -> method.invoke(t,method.getParameters()));
+        for(Method m : methods){
+            if(m.getName().contains("Init")){
+                m.invoke(t);
+            }
+        }
     }
 }
 

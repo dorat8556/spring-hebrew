@@ -17,4 +17,10 @@ public class ElfTest {
         Assert.assertTrue(elf.getPower()>=10);
         Assert.assertTrue(elf.getPower()<=20);
     }
+
+    @Test
+    public void saySomthing(){
+        Elf elf = ObjectFactory.getInstance().createObject(Elf.class);
+        Assert.assertTrue(!elf.getSay().equals(""));
+    }
 }
