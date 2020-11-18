@@ -8,7 +8,6 @@ import java.util.Set;
 
 public class InjectByTypeAnnotationObjectConfigurator implements ObjectConfigurator {
 
-    private static Set<Object> objects = new HashSet<>();
 
     @Override
     @SneakyThrows
@@ -20,16 +19,7 @@ public class InjectByTypeAnnotationObjectConfigurator implements ObjectConfigura
             if(annotation != null){
                 Object c = null;
                 Class<?> type = field.getType();
-                for(Object o : objects){
-                    if(o.getClass() == type){
-                        c=o;
-                        break;
-                    }
-                }
-                if( c == null){
-                    c = ObjectFactory.getInstance().createObject(type);
-                    objects.add(c);
-                }
+                c = ObjectFactory.getInstance().createObject(type);
                 field.setAccessible(true);
                 field.set(t,c);
             }

@@ -1,5 +1,6 @@
 package com.epam.my_spring;
 
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 
@@ -14,18 +15,10 @@ public class ObjectFactory {
 
 
     private static ObjectFactory instance = new ObjectFactory();
-    private Config config = new JavaHardcodedStupidSimpleConfig();
-    private Reflections scanner = new Reflections(config.getPackagesToScan());
-
+    private Config config;
+    private Reflections scanner;
     private List<ObjectConfigurator> configurators =new ArrayList<>();
 
-    @SneakyThrows
-    private ObjectFactory() {
-        Set<Class<? extends ObjectConfigurator>> classes = scanner.getSubTypesOf(ObjectConfigurator.class);
-        for (Class<? extends ObjectConfigurator> aClass : classes) {
-            configurators.add(aClass.getDeclaredConstructor().newInstance());
-        }
-    }
 
     public static ObjectFactory getInstance() {
         return instance;
@@ -84,6 +77,26 @@ public class ObjectFactory {
             }
         }
     }
+
+    public void setConfig(Config config){
+        this.config = config;
+        initScanner();
+    }
+
+    private void initScanner() {
+        this.scanner = new Reflections(config.getPackagesToScan());
+        initConfigurators();
+    }
+
+    @SneakyThrows
+    private void initConfigurators() {
+        Set<Class<? extends ObjectConfigurator>> classes = scanner.getSubTypesOf(ObjectConfigurator.class);
+        for (Class<? extends ObjectConfigurator> aClass : classes) {
+            configurators.add(aClass.getDeclaredConstructor().newInstance());
+        }
+    }
+
+
 }
 
 
