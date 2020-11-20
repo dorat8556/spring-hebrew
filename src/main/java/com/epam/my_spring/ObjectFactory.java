@@ -1,6 +1,5 @@
 package com.epam.my_spring;
 
-import lombok.Setter;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 
@@ -18,6 +17,7 @@ public class ObjectFactory {
     private Config config;
     private Reflections scanner;
     private List<ObjectConfigurator> configurators =new ArrayList<>();
+    private List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
 
 
     public static ObjectFactory getInstance() {
@@ -38,6 +38,8 @@ public class ObjectFactory {
 //todo here you should scan your class for methods, which starts with init and than you invoke them
 
         invokeAllInitMethods(t);
+
+        t = addProxyIfNeeded(t);
 
         return t;
     }
@@ -86,6 +88,7 @@ public class ObjectFactory {
     private void initScanner() {
         this.scanner = new Reflections(config.getPackagesToScan());
         initConfigurators();
+        initProxyConfigurators();
     }
 
     @SneakyThrows
@@ -96,6 +99,20 @@ public class ObjectFactory {
         }
     }
 
+    @SneakyThrows
+    private void initProxyConfigurators() {
+        Set<Class<? extends ProxyConfigurator>> classes = scanner.getSubTypesOf(ProxyConfigurator.class);
+        for (Class<? extends ProxyConfigurator> aClass : classes) {
+            proxyConfigurators.add(aClass.getDeclaredConstructor().newInstance());
+        }
+    }
+
+    private <T> T addProxyIfNeeded(T t) {
+        for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
+            t = (T) proxyConfigurator.replaceWithProxy(t);
+        }
+        return t;
+    }
 
 }
 

@@ -22,6 +22,7 @@ public class IRobot {
     public void cleanRoom() {
         speaker.say("I started");
         cleaner.clean();
+        cleaner.stam();
         speaker.say("I finshed");
     }
 }
