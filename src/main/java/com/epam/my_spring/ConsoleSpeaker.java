@@ -1,8 +1,5 @@
 package com.epam.my_spring;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 /**
  * @author Evgeny Borisov
  */
