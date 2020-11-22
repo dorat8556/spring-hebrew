@@ -109,7 +109,7 @@ public class ObjectFactory {
 
     private <T> T addProxyIfNeeded(T t) {
         for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
-            t = (T) proxyConfigurator.replaceWithProxy(t);
+            t = (T) proxyConfigurator.replaceWithProxy(t, t.getClass());
         }
         return t;
     }

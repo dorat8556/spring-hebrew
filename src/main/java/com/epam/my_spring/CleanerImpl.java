@@ -3,7 +3,6 @@ package com.epam.my_spring;
 /**
  * @author Evgeny Borisov
  */
-@TimerPerformance
 public class CleanerImpl implements Cleaner {
 
 
@@ -24,6 +23,7 @@ public class CleanerImpl implements Cleaner {
         }
     }
 
+    @TimerPerformance
     @Override
     public void stam() {
         for (int i = 0; i < repeat; i++) {

@@ -5,6 +5,7 @@ package com.epam.my_spring;
 /**
  * @author Evgeny Borisov
  */
+@Singleton()
 public class IRobot {
 
 
